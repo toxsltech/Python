@@ -1,0 +1,626 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<link href="{% static 'admin/css/rtl.css' %}" rel="stylesheet" type="text/css">
+
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha256-o8aByMEvaNTcBsw94EfRLbBrJBI+c3mjna/j4LrfyJ8=" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="card mb-4">
+            <div class="card-header h1 text-center bg-secondary">Registered User Graphs</div>
+        </div>
+        <div class="card my-4">
+            <div class="card-header">Month Wise</div>
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="d-inline" style="width: 40%;height: 300px">
+                        <canvas height="200" id="myChart1" width="400">
+                            <script>
+                                $(document).ready(function(){
+                                    {% block jquery1 %}{% endblock %}
+                                })
+
+                            </script>
+                        </canvas>
+                    </div>
+
+                    <div class="d-inline" style="width: 40%;height: 300px">
+                        <canvas height="200" id="myPie1" width="400">
+                            <script>
+                                $(document).ready(function(){
+                                    {% block jquery2 %}{% endblock %}
+                                })
+
+                            </script>
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card my-4">
+            <div class="card-header">
+                Year Wise
+            </div>
+            <div class="card-body">
+                <div class="d-flex ">
+                    <div style="width: 40%; height: 300px">
+                        <canvas height="200" id="myChart2" width="400">
+                            <script>
+                            $(document).ready(function(){
+                                {% block jquery3 %}{% endblock %}
+                            })
+
+                            </script>
+                        </canvas>
+                    </div>
+                    <div style="width: 40%; height: 300px">
+                        <canvas height="200" id="myPie2" width="400">
+                            <script>
+                            $(document).ready(function(){
+                                {% block jquery4 %}{% endblock %}
+                            })
+
+                            </script>
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card my-4">
+            <div class="card-header">
+                Week Wise
+            </div>
+            <div class="card-body">
+                <div class="d-flex">
+                    <div style="width: 100%; height: 500px">
+                        <canvas height="200" id="myChart3" width="600">
+                            <script>
+                        $(document).ready(function(){
+                            {% block jquery5 %}{% endblock %}
+                        })
+
+                            </script>
+                        </canvas>
+                    </div>
+                    <div class="my-4" style="width: 50%; height: 600px;">
+                        <canvas height="250" id="myPie3" width="400">
+                            <script>
+                        $(document).ready(function(){
+                            {% block jquery6 %}{% endblock %}
+                        })
+
+                            </script>
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ctx1 = document.getElementById("myChart1").getContext('2d');
+
+    var myChart1 = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"],
+            datasets: [{
+                label: '# Month Wise', 
+                data: {{Month_Data}},
+                backgroundColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(235, 159, 127, 1)',
+                'rgba(213, 127, 235, 1)',
+                'rgba(255, 71, 71, 1)',
+                'rgba(236, 157, 212, 1)',
+                'rgba(10, 138, 102, 1)',
+                'rgba(255, 41, 162, 1)',
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(235, 159, 127, 1)',
+                'rgba(213, 127, 235, 1)',
+                'rgba(255, 71, 71, 1)',
+                'rgba(236, 157, 212, 1)',
+                'rgba(10, 138, 102, 1)',
+                'rgba(255, 41, 162, 1)',
+                ],
+                borderWidth: 1,
+                fontSize:50
+            }]
+        },
+
+        options: {
+
+
+         legend: {
+            labels: {
+                fontSize: 20,
+
+            }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+
+        scales: {
+            yAxes: [{
+                ticks: {
+
+                    beginAtZero:true,
+                    stepSize: 1,
+                    precision:10
+                }
+            }]
+        }
+    }
+});
+
+
+    var ctx2 = document.getElementById("myPie1").getContext('2d');
+    var myPie1 = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"],
+            datasets: [{
+
+                label: '# Month Wise',
+                data: {{Month_Data}},
+                backgroundColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(235, 159, 127, 1)',
+                'rgba(213, 127, 235, 1)',
+                'rgba(255, 71, 71, 1)',
+                'rgba(236, 157, 212, 1)',
+                'rgba(10, 138, 102, 1)',
+                'rgba(255, 41, 162, 1)',
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(235, 159, 127, 1)',
+                'rgba(213, 127, 235, 1)',
+                'rgba(255, 71, 71, 1)',
+                'rgba(236, 157, 212, 1)',
+                'rgba(10, 138, 102, 1)',
+                'rgba(255, 41, 162, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+         legend: {
+            labels: {
+                fontSize: 12,
+
+            }
+        },
+        scales: {
+            yAxes: [{
+
+
+                ticks: {
+
+                    beginAtZero:true,
+                    stepSize: 1,
+                    precision:10,
+
+                }
+            }]
+        }
+    }
+});
+
+
+    var ctx3 = document.getElementById("myChart2").getContext('2d');
+    var myChart2 = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: {{Years}},
+            datasets: [{
+                label: '# Year Wise',
+                data: {{Year_Data}},
+                backgroundColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+         legend: {
+            labels: {
+                fontSize: 20
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+
+                    beginAtZero:true,
+                    stepSize: 1,
+                    precision:10
+                }
+            }]
+        }
+    }
+});
+
+    var ctx4 = document.getElementById("myPie2").getContext('2d');
+    var myPie2 = new Chart(ctx4, {
+        type: 'pie',
+        data: {
+            labels: {{Years}},
+            datasets: [{
+                label: '# Year Wise',
+                data: {{Year_Data}},
+                backgroundColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+         legend: {
+            labels: {
+                fontSize: 12
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+
+                    beginAtZero:true,
+                    stepSize: 1,
+                    precision:10
+                    // fontSize: 400000
+
+                }
+            }]
+        }
+    }
+});
+
+    var ctx5 = document.getElementById("myChart3").getContext('2d');
+    var myChart3 = new Chart(ctx5, {
+        type: 'bar',
+        data: {
+            labels: {{weeks}},
+            datasets: [{
+                label: '# Week Wise',
+                data: {{weeks_data}},
+                backgroundColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(97, 176, 28, 1)',
+                'rgba(171, 28, 176, 1)',
+                'rgba(28, 176, 169, 1)',
+                'rgba(149, 238, 234, 1)',
+                'rgba(221, 212, 39, 1)',
+                'rgba(235, 159, 127, 1)',
+                'rgba(213, 127, 235, 1)',
+                'rgba(255, 71, 71, 1)',
+                'rgba(236, 157, 212, 1)',
+                'rgba(10, 138, 102, 1)',
+                'rgba(36, 168, 240, 1)',
+                'rgba(240, 36, 131, 1)',
+                'rgba(230, 36, 240, 1)',
+                'rgba(240, 213, 36, 1)',
+                'rgba(17, 76, 238, 1)',
+                'rgba(128, 81, 189, 1)',
+                'rgba(165, 247, 24, 1)',
+                'rgba(6, 137, 177, 1)',
+                'rgba(196, 176, 252, 1)',
+                'rgba(243, 176, 252, 1)',
+                'rgba(209, 0, 35, 1)',
+                'rgba(97, 0, 31, 1)',
+                'rgba(0, 97, 6, 1)',
+                'rgba(97, 82, 0, 1)',
+                'rgba(64, 92, 0, 1)',
+                'rgba(4, 0, 122, 1)',
+                'rgba(88, 0, 143, 1)',
+                'rgba(143, 67, 0, 1)',
+                'rgba(255, 138, 36, 1)',
+                'rgba(206, 151, 151, 1)',
+                'rgba(172, 109, 248, 1)',
+                'rgba(248, 109, 209, 1)',
+                'rgba(175, 26, 255, 1)',
+                'rgba(112, 255, 169, 1)',
+                'rgba(104, 107, 0, 1)',
+                'rgba(179, 80, 0, 1)',
+                'rgba(0, 112, 52, 1)',
+                'rgba(112, 0, 112, 1)',
+                'rgba(112, 0, 37, 1)',
+                'rgba(255, 41, 41, 1)',
+                'rgba(255, 41, 162, 1)',
+                'rgba(155, 245, 0, 1)',
+                'rgba(56, 252, 255, 1)',
+                'rgba(36, 91, 255, 1)',
+                'rgba(255, 36, 167, 1)',
+                'rgba(177, 138, 255, 1)',
+                'rgba(255, 26, 26, 1)'
+
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(97, 176, 28, 1)',
+                'rgba(171, 28, 176, 1)',
+                'rgba(28, 176, 169, 1)',
+                'rgba(149, 238, 234, 1)',
+                'rgba(221, 212, 39, 1)',
+                'rgba(235, 159, 127, 1)',
+                'rgba(213, 127, 235, 1)',
+                'rgba(255, 71, 71, 1)',
+                'rgba(236, 157, 212, 1)',
+                'rgba(10, 138, 102, 1)',
+                'rgba(36, 168, 240, 1)',
+                'rgba(240, 36, 131, 1)',
+                'rgba(230, 36, 240, 1)',
+                'rgba(240, 213, 36, 1)',
+                'rgba(17, 76, 238, 1)',
+                'rgba(128, 81, 189, 1)',
+                'rgba(165, 247, 24, 1)',
+                'rgba(6, 137, 177, 1)',
+                'rgba(196, 176, 252, 1)',
+                'rgba(243, 176, 252, 1)',
+                'rgba(209, 0, 35, 1)',
+                'rgba(97, 0, 31, 1)',
+                'rgba(0, 97, 6, 1)',
+                'rgba(97, 82, 0, 1)',
+                'rgba(64, 92, 0, 1)',
+                'rgba(4, 0, 122, 1)',
+                'rgba(88, 0, 143, 1)',
+                'rgba(143, 67, 0, 1)',
+                'rgba(255, 138, 36, 1)',
+                'rgba(206, 151, 151, 1)',
+                'rgba(172, 109, 248, 1)',
+                'rgba(248, 109, 209, 1)',
+                'rgba(175, 26, 255, 1)',
+                'rgba(112, 255, 169, 1)',
+                'rgba(104, 107, 0, 1)',
+                'rgba(179, 80, 0, 1)',
+                'rgba(0, 112, 52, 1)',
+                'rgba(112, 0, 112, 1)',
+                'rgba(112, 0, 37, 1)',
+                'rgba(255, 41, 41, 1)',
+                'rgba(255, 41, 162, 1)',
+                'rgba(155, 245, 0, 1)',
+                'rgba(56, 252, 255, 1)',
+                'rgba(36, 91, 255, 1)',
+                'rgba(255, 36, 167, 1)',
+                'rgba(177, 138, 255, 1)',
+                'rgba(255, 26, 26, 1)'
+
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+         legend: {
+            labels: {
+                fontSize: 20
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+
+                    beginAtZero:true,
+                    stepSize: 1,
+                    precision:10
+                }
+            }]
+        }
+    }
+});
+
+var ctx6 = document.getElementById("myPie3").getContext('2d');
+var myPie3 = new Chart(ctx6, {
+    type: 'pie',
+    data: {
+        labels: {{weeks}},
+        datasets: [{
+            label: '# Week Wise Pie',
+            data: {{weeks_data}},
+            backgroundColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(97, 176, 28, 1)',
+            'rgba(171, 28, 176, 1)',
+            'rgba(28, 176, 169, 1)',
+            'rgba(149, 238, 234, 1)',
+            'rgba(221, 212, 39, 1)',
+            'rgba(235, 159, 127, 1)',
+            'rgba(213, 127, 235, 1)',
+            'rgba(255, 71, 71, 1)',
+            'rgba(236, 157, 212, 1)',
+            'rgba(10, 138, 102, 1)',
+            'rgba(36, 168, 240, 1)',
+            'rgba(240, 36, 131, 1)',
+            'rgba(230, 36, 240, 1)',
+            'rgba(240, 213, 36, 1)',
+            'rgba(17, 76, 238, 1)',
+            'rgba(128, 81, 189, 1)',
+            'rgba(165, 247, 24, 1)',
+            'rgba(6, 137, 177, 1)',
+            'rgba(196, 176, 252, 1)',
+            'rgba(243, 176, 252, 1)',
+            'rgba(209, 0, 35, 1)',
+            'rgba(97, 0, 31, 1)',
+            'rgba(0, 97, 6, 1)',
+            'rgba(97, 82, 0, 1)',
+            'rgba(64, 92, 0, 1)',
+            'rgba(4, 0, 122, 1)',
+            'rgba(88, 0, 143, 1)',
+            'rgba(143, 67, 0, 1)',
+            'rgba(255, 138, 36, 1)',
+            'rgba(206, 151, 151, 1)',
+            'rgba(172, 109, 248, 1)',
+            'rgba(248, 109, 209, 1)',
+            'rgba(175, 26, 255, 1)',
+            'rgba(112, 255, 169, 1)',
+            'rgba(104, 107, 0, 1)',
+            'rgba(179, 80, 0, 1)',
+            'rgba(0, 112, 52, 1)',
+            'rgba(112, 0, 112, 1)',
+            'rgba(112, 0, 37, 1)',
+            'rgba(255, 41, 41, 1)',
+            'rgba(255, 41, 162, 1)',
+            'rgba(155, 245, 0, 1)',
+            'rgba(56, 252, 255, 1)',
+            'rgba(36, 91, 255, 1)',
+            'rgba(255, 36, 167, 1)',
+            'rgba(177, 138, 255, 1)',
+            'rgba(255, 26, 26, 1)'
+
+
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(97, 176, 28, 1)',
+            'rgba(171, 28, 176, 1)',
+            'rgba(28, 176, 169, 1)',
+            'rgba(149, 238, 234, 1)',
+            'rgba(221, 212, 39, 1)',
+            'rgba(235, 159, 127, 1)',
+            'rgba(213, 127, 235, 1)',
+            'rgba(255, 71, 71, 1)',
+            'rgba(236, 157, 212, 1)',
+            'rgba(10, 138, 102, 1)',
+            'rgba(36, 168, 240, 1)',
+            'rgba(240, 36, 131, 1)',
+            'rgba(230, 36, 240, 1)',
+            'rgba(240, 213, 36, 1)',
+            'rgba(17, 76, 238, 1)',
+            'rgba(128, 81, 189, 1)',
+            'rgba(165, 247, 24, 1)',
+            'rgba(6, 137, 177, 1)',
+            'rgba(196, 176, 252, 1)',
+            'rgba(243, 176, 252, 1)',
+            'rgba(209, 0, 35, 1)',
+            'rgba(97, 0, 31, 1)',
+            'rgba(0, 97, 6, 1)',
+            'rgba(97, 82, 0, 1)',
+            'rgba(64, 92, 0, 1)',
+            'rgba(4, 0, 122, 1)',
+            'rgba(88, 0, 143, 1)',
+            'rgba(143, 67, 0, 1)',
+            'rgba(255, 138, 36, 1)',
+            'rgba(206, 151, 151, 1)',
+            'rgba(172, 109, 248, 1)',
+            'rgba(248, 109, 209, 1)',
+            'rgba(175, 26, 255, 1)',
+            'rgba(112, 255, 169, 1)',
+            'rgba(104, 107, 0, 1)',
+            'rgba(179, 80, 0, 1)',
+            'rgba(0, 112, 52, 1)',
+            'rgba(112, 0, 112, 1)',
+            'rgba(112, 0, 37, 1)',
+            'rgba(255, 41, 41, 1)',
+            'rgba(255, 41, 162, 1)',
+            'rgba(155, 245, 0, 1)',
+            'rgba(56, 252, 255, 1)',
+            'rgba(36, 91, 255, 1)',
+            'rgba(255, 36, 167, 1)',
+            'rgba(177, 138, 255, 1)',
+            'rgba(255, 26, 26, 1)'
+
+
+            
+
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+     legend: {
+        labels: {
+            fontSize: 12
+        }
+    },
+    scales: {
+        yAxes: [{
+            ticks: {
+
+                beginAtZero:true,
+                stepSize: 1,
+                precision:10
+            }
+        }]
+    }
+}
+});
+
+
+</script>
+{% endblock %}
+</head>

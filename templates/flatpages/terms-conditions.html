@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-header"
+	style="background: url(../../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+	background-position: center center;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="breadcrumb-wrapper">
+					<h2 class="product-title">{{ flatpage.title|title }}</h2>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'frontend:index' %}">Home /</a></li>
+						<li class="current">{{ flatpage.title }}</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<section class="terms-conds section-padding">
+	<div class="container">
+		<div class="text-center border-primary">
+			<h2 class="text-center heading font-weight-light text-dark pb-2">{{ flatpage.title }}</h2>
+		</div>
+		<div class="row justify-content-center mt-5">
+			<div class="col-lg-12">
+				<div class="terms-desc">
+					<p>{{ flatpage.content|safe }}</p>
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block title %}{{ flatpage.title|title }} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumb-wrapper %}{% endblock %}
+{% block content %}
+<div class="page-header"
+	style="background: url(../../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+	background-position: center center;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="breadcrumb-wrapper">
+					<h2 class="product-title">{{ aboutus.title|title }}</h2>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'frontend:index' %}">Home /</a></li>
+						<li class="current">{{ aboutus.title }}</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="about" class="about-main-block theme-2">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-12">
+				<div class="about-left">
+					<img src="../../static/assets/img/about-us.jpg" alt="image">
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-12 pl-4">
+				<div class="about-content">					
+					<h1 class="section-heading text-left">{{ aboutus.title }}</h1>					
+					<p class="text-justify">{{ aboutus.content|safe }}</p> 					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- about end-->
+
+
+<!-- testimonial start-->
+<div id="testimonial" class="testimonial-main-block"
+	style="background-image: url('../static/assets/img/bg-img.jpg')">
+	<div class="container">
+		<div class="section text-center border-primary mb-5">
+			<h1 class="section-heading">Customer Feedback</h1>
+		</div>
+		<div id="testimonial-block-slider" class="testimonial-block-slider owl-carousel">
+			{% for fb in feedback %}
+			<div class="item testimonial-dtl">
+				<div class="testimonial-client-img">
+					<img src="/media/{{ fb.image }}" class="img-fluid"
+						alt="testimonial"> <i class="las la-quote-right"></i>
+				</div>
+				<p>{{ fb.description }}</p>
+				<div class="testimonial-name">{{ fb.name }}</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<!-- testimonial end-->
+
+
+<div id="team" class="team-main-block">
+	<div class="container">
+		<div class="section text-center border-primary mb-5">
+			<h1 class="section-heading">Our Team</h1>
+		</div>
+		<div id="client-block-slider" class="client-block-slider owl-carousel">
+		{% for t in team %}
+
+			<div class="team mr-4">
+				<img class="img-fluid" src="/media/{{ t.image }}" alt="image" class="img-fluid">
+				<div class="details">
+					<h6>{{ t.name }}</h6>
+					<span>{{ t.designation }}</span>
+				</div>
+			</div>
+		{% endfor %}
+
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}

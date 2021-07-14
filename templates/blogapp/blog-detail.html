@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"
+	style="background: url(/../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+	background-position: center center;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="breadcrumb-wrapper">
+					<h2 class="product-title text-center">Blog Detail</h2>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'frontend:index' %}">Home /</a></li>
+						<li class="current">Blog Detail</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="blog-section section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-12">
+				<div class="single-blog-wrap">
+					{% if post.image %}
+					<div class="d-flex justify-content-center">
+					<img class="image" src="/media/{{post.image}}" alt="image">
+				</div>
+					{% else %}
+						<img class="image" src="/static/assets/img/default.jpg"></img>
+					{% endif %}
+					<div class="blog-meta">
+						<span><i class="lni-user"></i>{{post.created_by.username}}</span> <span><i
+							class="lni-calendar"></i>{{post.created_on}}</span> <span><i
+							class="lni-comments-alt"></i>{{post.comments.count}} Comments</span>
+					</div>
+					<h3>{{post.title}}</h3>
+					<p class="text-justify">{{post.description|safe}}</p>				
+
+					<hr>
+						<div class="row pad-top-20 pad-bot-20">
+						<div class="col-lg-6">
+								<ul class="footer-social">
+								   <li class="share pl-0"><b>Share Via</b></li>
+						           <li class="blue">
+				                   <a class="facebook" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" target="_blank"><i class="lni-facebook-filled"></i></a>
+				                   </li>
+				                   <li class="blue">
+                                   <a class="twitter" title="twitter" href="https://twitter.com/home?status={{request.build_absolute_uri}}" target="_blank"><i class="lni-twitter-filled"></i></a>
+                                   </li>
+                                </ul>
+						</div>
+					</div>
+					<hr>
+					<div class="comments-section">
+					 	<h5>Comments ({{post.comments.count}})</h5>
+						{% for comment in comments %}
+							<div class="single-comments-section">
+								 
+								<div class="d-flex bg-eee TestClass1">
+									{% if comment.created_by.profile_pic %}
+									<img src="/media/{{ comment.created_by.profile_pic }}" alt="image">
+									{% else %}
+									<img src="/static/assets/img/default.jpg" alt="image">
+                                    {% endif %}
+									<div class="d-flex flex-column w-100">
+								<p class="justify-content-between d-flex">
+									<b class="d-block">{{comment.user_name}} </b><span class="d-block">{{comment.created_on}}</span>
+								</p>
+								<p class="text-justify">{{comment.description}}</p>
+								</div>
+								</div>
+						     	</p>
+                                 {% for reply in comment.replies.all %}
+
+								<div class="d-flex my-4 px-4 reply-msg align-items-center ml-5">
+									{% if reply.created_by.profile_pic %}
+									<img src="/media/{{reply.created_by.profile_pic}}" class="img-fluid">
+									{% else %}
+									<img src="/static/assets/img/default.jpg" class="img-fluid">
+									{% endif %}
+									<div class="d-flex flex-column w-100">
+									<p class="d-flex justify-content-between"><b class="d-inline-block">{{reply.user_name}}</b><span class="d-inline-block">{{reply.created_on}}</span></p>
+
+								    <p class="text-justify">{{reply.description}}.</p>
+								</div>
+
+								</div>
+
+						     	{% endfor %}
+
+						     	<div>
+									<p><a href="javascript:void(0)" class="reply-btn" id="reply-btn_{{ comment.id }}">Reply</a></p>
+									
+									<form name="reply-form" class="reply-area" action="{% url 'blogapp:add_comment_to_post' post.id %}" method="POST" enctype="multipart/form-data">
+										{%  csrf_token %}
+										<div>
+											<input type="hidden" name="comment" value="{{ comment.id }}" />
+									     	<input type="hidden" name="post" value="{{ post.id }}" />
+											<div class="offset-2 col-lg-10 reply-textarea p-3 mt-3 border box-shadow">
+												<textarea name="description" id="reply-textarea_{{ comment.id }}" cols="2" rows="2"
+													placeholder="Enter Your Reply"></textarea><p class="error"></p>
+									        	<div class="col-lg-13">
+											       <input type="text" name="user_name" id="user_name_{{ comment.id }}" {% if request.user.first_name == 'None' %} value="{{request.user.first_name}}" {% else %} placeholder="Enter Name" {% endif %} class="form-control"><p class="error"></p>
+									        	</div>
+
+												<div class="text-left mt-2">
+													<button class="tg-btn text-white px-2 py-0">Submit</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+ 						     </div>
+
+						  
+						{% endfor %}
+						<hr>
+						{% if count_status %}
+							<div><a href="{% url 'blogapp:comments_list' post.id  %}"> View More Comments </a></div>
+						{% endif %}
+
+					
+					</div>
+				</div>
+				<div class="comments-form">
+					<h3>Leave A Reply</h3>
+					<p class="mb-3">Your email address will not be published.</p>
+					<form method='POST' class="comment-form" name="comment-form" action="{% url 'blogapp:add_comment_to_post' post.id %}" enctype="multipart/form-data">
+						{% csrf_token %}
+					<div class="row">
+						<div class="col-md-12">
+							<textarea name="description" id="description" cols="30" rows="10"
+								placeholder="Write Your Comment"></textarea>
+								<p class="error"></p>
+						</div>
+						<div class="col-lg-6">
+							<input type="text" name="user_name" id="user_name" {% if request.user.first_name %} value="{{request.user.first_name}}" {% else %} placeholder="Enter Name" {% endif %} class="form-control">
+							<p class="error"></p>
+						</div>
+						<div class="col-lg-6">
+							<input type="email" name="email" id="email" {% if request.user.email %} value="{{request.user.email}}" {% else %} placeholder="Enter email" {% endif %} class="form-control">
+							<p class="error"></p>
+						</div>
+						{% if request.user %}
+						<div class="col-lg-12 text-center mt-3">
+							<button class="tg-btn" type="submit">Post Comment</button>
+						</div>
+						{% else %}
+						   <div class="col-lg-12 text-center mt-3">
+							 <a href="{% url 'accounts:login' %}" class="tg-btn">Post Comment</a>
+						</div>
+					    {% endif %}
+					</div>
+				    </form>
+				    
+				</div>
+
+			</div>
+			<div class="col-lg-4 col-md-12">
+				<aside class="sidebar">
+					<div class="blog-category">
+						<h5>Categories</h5>
+                      
+                        {% for categorie in categories %}
+						<a class="" href="{% url 'blogapp:category_list' categorie.id %}">{{categorie.name}}</a> 
+						 {% endfor %}
+
+					</div>
+					<div class="recent-post">
+						<h5>Recent Post</h5>
+						{% for post in recentpost %}
+						<div class="single-recent-post d-flex align-items-center justify-content-center">
+							{% if post.image %}
+							<a href="{% url 'blogapp:post_detail' post.id %}"><img src="/media/{{post.image}}" alt="image"></a>
+							{% else %}
+							<a href="{% url 'blogapp:post_detail' post.id %}"><img src="/static/assets/img/default_product_image.jpg" alt="image"></a>
+							{% endif %}
+							<div class="recent-post-content ml-3">
+								<h6>
+									<a href="{% url 'blogapp:post_detail' post.id %}"> {{post.title}} </a>
+								</h6>
+								<p class="post-date">
+									<i class="lni-calendar mr-2"></i>{{post.created_on}}
+								</p>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</aside>
+			</div>
+		</div>
+	</div>
+</section>
+<script>
+$( document ).ready(function () {
+  $(".moreBox").slice(0, 3).show();
+    if ($(".blogBox:hidden").length != 0) {
+      $("#loadMore").show();
+    }   
+    $("#loadMore").on('click', function (e) {
+      e.preventDefault();
+      $(".moreBox:hidden").slice(0, 6).slideDown();
+      if ($(".moreBox:hidden").length == 0) {
+        $("#loadMore").fadeOut('slow');
+      }
+    });
+  });
+</script>
+
+{% endblock %}

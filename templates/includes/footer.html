@@ -1,0 +1,329 @@
+{% load static i18n extras %}
+<footer>
+	<section class="footer-Content">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+					<div class="widget">
+						<h3 class="footer-logo">
+							<h3 class="text-white">DT</h3>
+						</h3>
+						<div class="textwidget">
+							<p>The main objective of this project is to deploy a “Products Blog Platform (Web Application)”
+							 that will help users to get details about the list of the top products available on the market. User's will clicks on buy product an 
+							 affiliate link will be open and user will redirect to website from where they can buy product </p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+					<div class="widget">
+						<h3 class="block-title">Latest Ads</h3>
+						<ul class="media-content-list">
+							{% if 1|latest_ads %}
+							{% for ads in 1|latest_ads %}
+								<li><a href="{% url 'frontend:latest_ads' ads.id %}">
+									{% if ads.image %}
+										<div class="media-left">
+											<img class="img-fluid" src="{{ads.image.url}}" alt="">
+											<div class="overlay">
+												<span class="price">${{ads.price}}</span>
+											</div>
+										</div>
+									{% else %}
+										<div class="media-left">
+											<img class="img-fluid" src="/static/assets/img/default_product_image.jpg" alt="">
+											<div class="overlay">
+												<span class="price"></span>
+											</div>
+										</div>									
+									{% endif %}
+									</a>
+									<div class="media-body">
+										<h4 class="post-title">
+											<a href="{% url 'frontend:latest_ads' ads.id %}">{{ads.title}}</a>
+										</h4>
+										<span class="date">{{ads.created_on.date}}</span>
+									</div>
+								</li>
+							{% endfor %}
+							{% else %}
+							No add available
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+					<div class="widget">
+						<h3 class="block-title">Help & Support</h3>
+						<ul class="menu">
+							<li><a href="/about/" target="_blank">About Us</a></li>
+							<li><a href="{% url 'frontend:faq' %}" target="_blank">FAQs</a></li>
+							<li><a href="/privacy/" target="_blank">Privacy Policy</a></li>
+							<li><a href="/terms/" target="_blank">Terms & Conditions</a></li>
+							<li><a href="{% url 'frontend:contact' %}" target="_blank">Contact us</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+					<div class="widget">
+						<h3 class="block-title">Subscribe us</h3>
+						<p class="text-sub">We have over 5 years of experience. Our supporting team
+							available to help you 24 hours a day, seven days a week.</p>
+						<form method='POST' id="subscribe-form" name="subscribe-form" action ="{% url 'frontend:subscribe' %}" class="validate"
+						>
+                           {% csrf_token %}
+							<div class="form-group is-empty">
+								<input type="email" name="email" class="form-control"
+									id="email" placeholder="Email address">
+									 <p class="error"></p>
+								<button type="submit" name="subscribe" id="subscribes"
+									class="btn btn-common sub-btn">
+									<i class="lni-check-box"></i>
+								</button>
+								<div class="clearfix"></div>
+							</div>
+						</form>
+						<ul class="footer-social">
+							<li><a class="facebook" href="https://www.facebook.com/Dintalks/" target="_blank"><i class="lni-facebook-filled"></i></a></li>
+							<li><a class="twitter" href="https://www.twitter.com/dintalks/" target="_blank"><i class="lni-twitter-filled"></i></a></li>
+							<li><a class="linkedin" href="https://www.pinterest.com/dintalks/" target="_blank"><i class="lni lni-pinterest"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="site-info text-center">
+						<p>
+							© 2020 <a href="#0" class="text-danger">DT Platform</a> | All Rights Reserved | Developed by <a href="https://toxsl.com/" target="_blank" class="text-danger"> Toxsl Technologies Pvt. Ltd.</a></p>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="search-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Just <span id="counts">0</span> questions for quick results!</h4>
+					<button onclick="refersh()" type="button" class="close text-white"  data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div id="search-carousel" class="owl-carousel">
+						<p>Please enter key for search</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<a href="" class="back-to-top"> <i class="lni-chevron-up"></i>
+</a>
+
+<div id="preloader">
+	<div class="loader" id="loader-1"></div>
+</div>
+<script src="{% static '/assets/js/jquery-min.js' %}"></script>
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ -->
+<script src="{% static '/assets/js/jquery-ui.js' %}"></script>
+<script src="{% static '/assets/js/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static '/assets/js/waypoints.min.js' %}"></script>
+<script src="{% static '/assets/js/wow.js' %}"></script>
+<script src="{% static '/assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static '/assets/js/nivo-lightbox.js' %}"></script>
+<script src="{% static '/assets/js/jquery.slicknav.js' %}"></script>
+<script src="{% static '/assets/js/main.js' %}"></script>
+<script src="{% static '/assets/js/myscript.js' %}"></script>
+
+<script>
+
+var matchHeight = function () {
+	
+	function init() {
+		eventListeners();
+		matchHeight();
+	}
+	
+	function eventListeners(){
+		$(window).on('resize', function() {
+			matchHeight();
+		});
+	}
+
+	
+	function matchHeight(){
+		var groupName = $('[data-match-height]');
+		var groupHeights = [];
+		
+		groupName.css('min-height', 'auto');
+		
+		groupName.each(function() {
+			groupHeights.push($(this).outerHeight());
+		});
+		
+		var maxHeight = Math.max.apply(null, groupHeights);
+		groupName.css('min-height', maxHeight);
+	};
+	
+	return {
+		init: init
+	};
+	
+} ();
+
+$(document).ready(function() {
+	matchHeight.init();
+});
+
+// $('#aa').on('hide', function() {
+// window.location.reload();
+// });
+
+
+	</script>
+	  
+
+
+<script type="text/javascript">
+	onload=function(){
+		
+		var e = document.getElementById("refreshed");
+		if(e.value=="no"){
+			e.value="yes";
+		}else{
+			e.value="no";
+			location.reload(true);
+		}
+	}
+
+	$(document).ready(function(e){
+		if ($(".message_content p").length > 0)
+		{
+			$(".message_content").show()
+			$(".message_content").fadeOut(5000)
+		}else
+		{
+			$(".message_content").fadeOut()
+		}
+	});
+</script>
+<script>
+$(document).ready(function(){
+
+    // var highestBox = 0;
+    //     $('.blog-block').each(function(){  
+    //             if($(this).height() > highestBox){  
+    //             highestBox = $(this).height();  
+    //     }
+    // });    
+    // $('.blog-block').height(highestBox);
+    
+    
+    $("form.profile_form").submit(function(e){
+		if ($("#first_name").val()==''){
+			if(/^[A-Za-z ]+$/.test($("#first_name").val())){
+				$("#first_name").parent().find(".error").empty()
+			}else{
+				$("#first_name").parent().find(".error").text("Please enter name in alphabets only.")
+				e.preventDefault();
+			}
+		}else{
+			if(/^[A-Za-z ]+$/.test($("#first_name").val())){
+				$("#first_name").parent().find(".error").empty()
+			}else{
+				$("#first_name").parent().find(".error").text("Please enter name in alphabets only.")
+				e.preventDefault();
+			}
+		}
+		if ($("#last_name").val()==''){
+			if(/^[A-Za-z ]+$/.test($("#last_name").val())){
+				$("#last_name").parent().find(".error").empty()
+			}else{
+				$("#last_name").parent().find(".error").text("Please enter name in alphabets only.")
+				e.preventDefault();
+			}
+		}else{
+			if(/^[A-Za-z ]+$/.test($("#last_name").val())){
+				$("#last_name").parent().find(".error").empty()
+			}else{
+				$("#last_name").parent().find(".error").text("Please enter name in alphabets only.")
+				e.preventDefault();
+			}
+		}
+		if ($("#mobile_no").val()==''){
+			$("#mobile_no").parent().find(".error").text("Please enter mobile number.")
+			e.preventDefault();
+		}else if($("#mobile_no").val()){
+	         var filter = /^[0-9]{5,15}$/;
+	         if (!filter.test($("#mobile_no").val())) {
+	     	 	e.preventDefault();
+		     	$("#mobile_no").parent().find(".error").text("Please enter valid mobile no.")
+			 }else{
+			 	$("#mobile_no").parent().find(".error").empty()
+			 }
+		}
+		
+	});
+
+});
+</script>
+<script>
+$(".validate").on("submit",function(e){
+$(".validate input[type = 'email']").each(function(ev){
+			if($(this).val() != ""){
+				if(! validateEmail($(this).val())){
+					$(this).parent().find(".error").empty()
+					$(this).parent().find(".error").text("Your email is not valid.")
+					e.preventDefault();
+				}else{
+					$(this).parent().find(".error").empty()
+				}
+			}else{
+				$(this).parent().find(".error").empty()
+				$(this).parent().find(".error").text("Please enter email.")
+				e.preventDefault();
+			}
+		});
+		});
+		
+</script>
+<script>
+function submit() {
+    var values = [];
+    $("input[type=checkbox]:checked").each(function(){
+        values.push($(this).next("a").text());
+    });
+}
+</script>
+<script>
+function refersh()
+{
+	window.location.reload();
+}
+$(".reply-area").on("submit",function(e){
+$(".reply-area input[type = 'description']").each(function(e){
+			if($(this).val() = ""){
+				$(this).parent().find(".error").empty()
+				$(this).parent().find(".error").text("Please enter Description.")
+				e.preventDefault();
+			}
+		});
+		});
+		
+</script>
+<script>
+	
+</script>
+</body>
+</html>

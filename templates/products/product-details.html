@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"
+	style="background: url(../../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+	background-position: center center;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="breadcrumb-wrapper">
+					<h2 class="product-title text-center">Details</h2>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'frontend:index' %}">Home /</a></li>
+						<li class="current">Details</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section-padding product-detail">
+	<div class="container">
+		<div class="product-info row">
+			<div class="col-lg-5 col-md-12 col-xs-12">
+				<div class="details-box ads-details-wrapper">
+					<div id="owl-demo" class="owl-carousel owl-theme">
+						{% if product_images %}
+						{% for product_image in product_images %}
+						<div class="item">
+							<div class="product-img d-flex justify-content-center">
+								<img class="img-fluid new-img2" src="/media/{{product_image.image}}"
+									alt="img">
+							</div>
+							<span class="price">${{product.price}}</span>
+						</div>						
+						{% endfor %}
+						{% else %}
+						<div class="item">
+							<div class="product-img">
+								<img class="img-fluid" src="/static/assets/img/default_product_image.jpg"
+									alt="img">
+							</div>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-7 col-md-12 col-xs-12">
+				<div class="details-box">
+					<div class="ads-details-info">
+						<h2>{{product.name}}
+						</h2>
+						<p class="mb-2">{{product.description|safe}}</p>
+						<div class="details-meta">
+							<span><i class="lni-alarm-clock"></i> {{product.created_on}}</span>							
+						</div>
+						<h4 class="title-small mb-3">Specification:</h4>
+						<ul class="list-specification ">
+							{% if product.specification_1 %}
+							<li><i class="lni-check-mark-circle li-new"></i>{{product.specification_1|safe}}</li>
+							{% else %}
+							{% endif %}
+							{% if product.specification_2 %}
+							<li><i class="lni-check-mark-circle"></i>{{product.specification_2|safe}}</li>
+							{% else %}
+							{% endif %}
+							{% if product.specification_3 %}
+							<li><i class="lni-check-mark-circle"></i>{{product.specification_3|safe}}</li>
+							{% else %}
+							{% endif %}
+							{% if product.specification_4 %}
+							<li><i class="lni-check-mark-circle"></i>{{product.specification_4|safe}}</li>
+							{% else %}
+							{% endif %}
+						    {% if product.specification_5 %}
+							<li><i class="lni-check-mark-circle"></i>{{product.specification_5|safe}}</li>
+							{% else %}
+							{% endif %}
+						</ul>
+					</div>
+					<ul class="advertisement mb-4">
+						<li><p>
+								<strong>Type:</strong> <a>{{product.category}}</a>
+							</p></li>
+						<li><p>
+								<strong>Condition:</strong> {{product.condition}}
+							</p></li>
+						<li><p>
+								<strong>Brand:</strong> <a>{{product.brand}}</a>
+							</p></li>
+					</ul>
+				</div>
+				<hr>
+				{% if request.user.is_active %}
+				<div class="buy-now">
+					<h2 class="text-center section-title section-heading">Buy Now</h2>
+					<form class="row" >
+						{% if product.affilate_link_amazon %}
+						<div class="col-lg-4 text-center">
+						    <a href="{{product.affilate_link_amazon}}" class="tg-btn" target="_blank">Buy With Amazon</a>
+						</div>
+						{% endif%}
+						{% if product.affilate_link_flipkart %}
+						<div class="col-lg-4 text-center">
+							<a href="{{product.affilate_link_flipkart}}" class="tg-btn" target="_blank">Buy With Flipkart</a>
+						</div>
+						{% endif %}
+						{% if product.affilate_link_ebay %}
+						<div class="col-lg-4 text-center">
+							<a href="{{product.affilate_link_ebay}}" class="tg-btn" target="_blank">Buy With Ebay</a>
+						</div>
+						{% endif %}
+						{% if product.affilate_link_amazon == None and product.affilate_link_flipkart == None and product.affilate_link_ebay == None %}
+
+						<div class="col-md-12 text-center">
+						<p>There are no buy links available yet.</p>
+					</div>
+
+						{% endif %}
+					</form>
+				</div>
+				{% else %}
+				<div class="buy-now">
+					<h2 class="text-center section-title section-heading">Buy Now</h2>
+					<form class="row" >
+						{% if product.affilate_link_amazon %}
+						<div class="col-lg-4 text-center">
+						    <a href="{% url 'accounts:login' %}" class="tg-btn" >Buy With Amazon</a>
+						</div>
+						{% endif%}
+						{% if product.affilate_link_flipkart %}
+						<div class="col-lg-4 text-center">
+							<a href="{% url 'accounts:login' %}" class="tg-btn">Buy With Flipkart</a>
+						</div>
+						{% endif %}
+						{% if product.affilate_link_ebay %}
+						<div class="col-lg-4 text-center">
+							<a href="{% url 'accounts:login' %}" class="tg-btn">Buy With Ebay</a>
+						</div>
+						{% endif %}
+					</form>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>DT- Product Review Platform</title>
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/fonts/line-icons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/fontawesome/css/all.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/slicknav.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/nivo-lightbox.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/font-awesome.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/main.css' %}">
+<link rel="shortcut icon" type="image/png" href="{% static '/assets/img/favicon.ico' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/responsive.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style type="text/css">
+.message_content {
+   position: absolute;
+    background: #3f8c3d;
+    padding: 9px;
+    border-radius: 4px;
+    right: 13px;
+    top: 46px;
+    z-index: 99999;
+}
+.message_content p {
+    color: white;
+}
+ul.errorlist {
+    color: #fc4250;
+}
+.alert {
+    animation: autoHide 5s ease-in 10s forwards;
+}
+
+</style>
+</head>
+<body>
+<input type="hidden" id="refreshed" value="no">
+	<header id="header-wrap">
+		<nav class="navbar navbar-expand-lg fixed-top scrolling-navbar">
+			<div class="container">
+				<div class="navbar-header">
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#main-navbar" aria-controls="main-navbar"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span> <span class="lni-menu"></span>
+						<span class="lni-menu"></span> <span class="lni-menu"></span>
+					</button>
+					<a href="/" class="navbar-brand">
+						<h3 class="text-white">DT</h3>
+					</a>
+				</div>
+				<div class="collapse navbar-collapse" id="main-navbar">
+					<ul class="navbar-nav ml-auto">
+
+						<li class="nav-item"><a class="nav-link" title="Home" href="{% url 'frontend:index' %}">Home</a></li>
+						<li class="nav-item"><a class="nav-link" title="Blog" href="{% url 'blogapp:post_list' %}">Blog</a></li>
+						<li class="nav-item"><a class="nav-link" title="About" href="/about/">About</a></li>
+						<li class="nav-item"><a class="nav-link" title="You Tube" href="https://www.youtube.com/dintalks" target="_blank">Youtube</a></li>
+						<li class="nav-item"><a class="nav-link" title="Contact Us" href="{% url 'frontend:contact' %}">Contact
+								Us</a></li>
+					   <!--  {% if request.user.is_active %}
+						<li class="nav-item"><a class="nav-link" title="User Profile" href="{% url 'accounts:profile' %}"><i class="lni-user"></i></a></li>
+						{% endif %} -->
+						{% if not request.user.is_superuser  and request.user.is_active %}
+							<li class="nav-item"><a class="nav-link" title="User Profile" href="{% url 'accounts:profile' %}"><i class="lni-user"></i></a></li>
+						{% endif %}
+					</ul>
+					{% if request.user.is_authenticated %}
+						<a class="tg-btn light-btn">{{request.user.email}}</a>
+						<a class="tg-btn light-btn" href="{% url 'accounts:logout' %}">Logout</a>
+						{% if request.user.is_superuser %}
+							<a class="tg-btn light-btn" href="{% url 'admin:index' %}">Back To Admin</a>
+						{% endif %}
+					{% else %}
+						<a class="tg-btn light-btn" href="{% url 'accounts:login' %}"> <i
+							class="lni-user dark-btn"></i> Sign In
+						</a> <a class="tg-btn" href="{% url 'accounts:signup' %}"> <i class="lni-user"></i>
+							Sign Up
+						</a>
+					{% endif %}
+
+				</div>
+			</div>
+			<ul class="mobile-menu">
+				<li class="nav-item active"><a class="nav-link" href="{% url 'frontend:index' %}">Home</a></li>
+				<li class="nav-item"><a class="nav-link" href="{% url 'blogapp:post_list' %}">Blog</a></li>
+				{% for page in flatpages %}
+                       <li><a href="{{ page.url }}">{{ page.title|title }}</a></li>
+                 {% endfor %}
+				<li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://www.youtube.com/dintalks">Youtube</a></li>
+				<li class="nav-item"><a class="nav-link" href="{% url 'frontend:contact' %}">Contact Us</a></li>
+				{% if request.user.is_authenticated %}
+					<li class="nav-item"><a class="nav-link"><i class="lni-envelope dark-btn mr-1"></i>{{request.user.email}}</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout' %}"><i class="lni-chevron-right-circle dark-btn mr-1"></i>Logout</a></li>
+					{% if request.user.is_superuser %}
+						<li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}"><i class="lni-chevron-left dark-btn mr-1"></i>Back To Admin</a></li>
+					{% endif %}
+				{% else %}
+					<a class="nav-link" href="{% url 'accounts:login' %}"> <i class="lni-user dark-btn mr-1"></i> Sign In </a>
+					<a class="nav-link" href="{% url 'accounts:signup' %}"> <i class="lni-user mr-1"></i>Sign Up</a>
+				{% endif %}
+			</ul>
+
+		</nav>
+	</header>
+	<div class="message_content">
+		{% for message in messages %}
+			    <!-- <a class="close" data-dismiss="alert" href="#">×</a> -->
+			    <div class="alert">
+			    <p>{{ message }}</p>
+			    </div>
+		{% endfor %}
+	</div>

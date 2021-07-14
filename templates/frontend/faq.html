@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-header"
+	style="background: url(../../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+	background-position: center center;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="breadcrumb-wrapper">
+					<h2 class="product-title">FAQs</h2>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'frontend:index' %}">Home /</a></li>
+						<li class="current">Faqs</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="section-padding">
+	<div id="base-header" class="container-fluid max-fluid mb-100"
+		style="background: url(assets/img/menu-back.png);"></div>
+	<div class="text-center border-primary mb-5 pb-2">
+		<h2 class="mb-3 ">Frequently Asked Questions</h2>
+	</div>
+	<div id="FAQ" class="container">
+		<div class="row">
+			<div class="col-md-12 padding-b-60 text-center"></div>
+			<div class="col-md-12">
+				<div id="accordion">
+				{% for faq in faqs %}
+					<div class="card">
+						<div class="card-header" id="heading{{faq.id}}">
+							<h5 class="mb-0">
+								<button class="btn btn-link "data-toggle="collapse"  data-parent="#accordion"
+									data-target="#collapse{{faq.id}}" aria-expanded="true"
+									aria-controls="collapse{{faq.id}}">
+									<i class="lni-pointer-right pr-2"></i>{{ faq.question }}
+								</button>
+								
+							</h5>
+						</div>
+						<div id="collapse{{faq.id}}" class="collapse show"
+							aria-labelledby="heading{{faq.id}}" data-parent="#accordion">
+							<div class="card-body bg-white">
+								<p>{{ faq.answer }}</p>
+
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

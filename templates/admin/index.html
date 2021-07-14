@@ -1,0 +1,112 @@
+{% extends "admin/index.html" %}
+{% load static extras %}
+{% load hitcount_tags %}
+{% block content %}
+<style>
+	.row{
+		display: flex;
+		flex-wrap: wrap;
+		
+	}
+	.col-md-4 {
+		min-width: 33.33%;
+		display: inline-block;
+		text-align: center;	
+		cursor: pointer;
+		max-width: 100%;
+	}
+	.dash-block{
+		padding: 25px;
+		border-radius: 5px;
+		margin: 5px;
+		background: #fff;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 05), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+		
+	}
+	.dash-block p{
+	
+		font-size: 20px;
+		font-weight: bold;
+	
+	}
+	h1 {
+	    display: block;
+	    font-size: 1.8em;
+	    margin-block-start: 0.67em;
+	    margin-block-end: 0.67em;
+	    margin-inline-start: 0px;
+	    margin-inline-end: 0px;
+	    font-weight: bold;
+	}
+	
+	.bg-warning {
+	    background: #778899;
+	}
+	.bg-silver{
+		background: #A9A9A9 ;
+	}
+	
+	.text-white{
+	color: black;
+	}
+	.heading {
+    width: 100%;
+    text-align: center;
+    background: white;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+		<a href='/admin/accounts/user/'>
+			<div class="dash-block bg-silver text-white">	
+				<h1>Total Users registered</h1>
+				<p>{{3|totaluser}}</p>
+			
+			</div>
+				</a>
+			</div>
+			
+		<div class="col-md-4">
+		<a href='/admin/products/product/'>
+			<div class="dash-block bg-warning text-white">
+				<h1>Total Products</h1>
+				<p>{{3|totalproducts}}</p>
+			</div>
+			</a>
+		</div>
+	
+		<div class="col-md-4">
+		<a href='/admin/accounts/topics/'>
+			<div class="dash-block bg-silver text-white">
+				<h1>Topics Posted</h1>
+				<p>{{3|totaltopics}}</p>
+			</div>
+			</a>
+
+		</div>
+	</div>	
+	<div class="row">
+		<div class="heading">
+			<h1>List of all topics</h1>
+		</div>
+		{% for topic in 1|topic_list %}
+			<div class="col-md-4">
+				<a href="/admin/accounts/user/?topics__id__exact={{topic.id}}">
+					<div class="dash-block bg-silver text-white">
+						<h1>{{topic.name}}</h1>
+					</div>
+				</a>
+			</div>
+		{% endfor %}
+	</div>	
+</div>
+<br>
+<br>
+
+
+{% endblock %}
+{% block sidebar %}{% endblock %}

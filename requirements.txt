@@ -1,0 +1,1 @@
+newsletter==0.1.22rc0

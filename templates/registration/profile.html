@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static i18n %}
+
+<div class="page-header"
+	style="background: url(../../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+	background-position: center center;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="breadcrumb-wrapper">
+					<h2 class="product-title">User Profile</h2>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'frontend:index' %}">Home</a></li>
+						<li class="current">Profile</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="dashboard_sec section-padding dashboard user-profile">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="dashboard_menu bg-light">
+					<div class="dashbord_img mb-4">
+						<div class="dashboard_back">
+							<div class="img-bg-color"></div>
+						</div>
+						{% if request.user.profile_pic %}
+							<div class="rounded_img">
+								<img class="img-fluid" src="{{request.user.profile_pic.url}}" alt="image">
+							</div>
+						{% else %}
+							<div class="rounded_img">
+								<img class="img-fluid" src="/static/assets/img/default.jpg" alt="image">
+							</div>
+						{% endif %}
+						{% if request.user.first_name and request.user.last_name %}
+						<div class="aditya">{{request.user.first_name}} {{request.user.last_name}}</div>
+						{% elif request.user.first_name %}
+						<div class="aditya">{{request.user.first_name}}</div>
+						{% else %}
+						<div class="aditya"></div>
+						{% endif %}
+					</div>
+					<hr class="sidebar-name">
+					<ul class="list-unstyled mt-0 mb-3 nav nav-pills flex-column"
+						id="myTab" role="tablist">
+						<li class="nav-item"><a class="nav-link active" id="profile-tab"
+							data-toggle="tab" href="#profile" role="tab"
+							aria-controls="profile" aria-selected="true"> <span><i
+									class="lni-user mr-1"></i></span> My Profile
+						</a></li>
+						<li class="nav-item"><a class="nav-link" id="profile-settings-tab"
+							data-toggle="tab" href="#profile-settings" role="tab"
+							aria-controls="profile-settings" aria-selected="false"><span><i
+									class="lni-cog mr-1"></i></span> Edit Profile </a></li>
+						<li class="nav-item"><a class="nav-link" id="change-password-tab"
+							data-toggle="tab" href="#change-password" role="tab"
+							aria-controls="change-password" aria-selected="false"><span><i
+									class="lni-unlock mr-1"></i></span> Change Password </a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="profile" role="tabpanel"
+						aria-labelledby="profile-tab">
+						<div class="bg-light p-4">
+							<div class="dashboard_main">
+								<div class="row">
+									<div id="recent-transactions" class="col-12">
+										<h4 class="card-title mt-0 pb-0 m-0 mb-2">My Profile</h4>
+										<hr>
+
+
+											<dl class="dl-horizontal">
+												<dt>
+													<strong> First Name </strong>
+												</dt>
+												{% if request.user.first_name %}
+												<dd>{{request.user.first_name}}</dd>
+												{% else %}
+												<dd> Your First Name </dd>
+												{% endif %}
+												<hr>
+												<dt>
+													<strong>Last Name</strong>
+												</dt>
+												{% if request.user.last_name %}
+												<dd> {{request.user.last_name}}</dd>
+												{% else %}
+												<dd> Your Last Name </dd>
+												{% endif %}
+												<hr>
+												<dt>
+													<strong>Email Address</strong>
+												</dt>
+												<dd>{{request.user.email}}</dd>
+												<hr>
+												
+												<dt>
+													<strong>Phone No.</strong>
+												</dt>
+												{% if request.user.mobile_no %}
+												<dd>{{request.user.mobile_no}}</dd>
+												{% else %}
+												<dd> Your Phone No. </dd>
+												{% endif %}
+												<hr>
+												<dt>
+													<strong>Topics</strong>
+												</dt>
+												{% if selected_topics %}
+												<dd>{{selected_topics}}</dd>
+												{% else %}
+												<dd>No topic selected yet</dd>
+                                                {% endif %}
+												<hr>
+												<dt>
+													<strong>Gender</strong>
+												</dt>
+												<dd>{% if request.user.gender == 1%} Male {% else %} Female {% endif %}</dd>
+												<hr>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="profile-settings" role="tabpanel"
+						aria-labelledby="profile-settings-tab">
+						<div class="bg-light">
+							<div class="dashboard_main">
+								<div class="row">
+									<div id="recent-transactions" class="col-12">
+										<h4 class="card-title mt-0 pb-0 m-0 pl-4 pt-3">Manage your Name, ID and Email Address.</h4>
+										<hr>
+										<form method="post" class="profile_form" id="profile_form" action="{%url 'accounts:profile'%}" enctype="multipart/form-data">
+										{% csrf_token %} 
+											<div class="row profile_detail px-4 pb-4 pt-2">
+
+												<div class="col-lg-6">
+													<div class="form-group mb-3">
+														<label>first name</label> 
+														<input type="text" name="first_name" id="first_name" {% if request.user.first_name %} value="{{request.user.first_name}}" {% else %} placeholder="Enter first name" {% endif %}
+														 class="form-control"><p class="error"></p>
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group mb-3">
+														<label>last name</label> 
+														<input type="text" name="last_name" id="last_name" {% if request.user.last_name %} value="{{request.user.last_name}}" {% else %} placeholder="Enter last name" {% endif %}
+														 class="form-control"><p class="error"></p>
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group mb-3">
+														<label>email</label> 
+														<input type="email" name="email" {% if request.user.email %} value="{{request.user.email}}" {% else %} placeholder="Enter email" {% endif %}
+															required class="form-control" readonly>
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group mb-3">
+														<label>Mobile No</label> 
+														<input type="number" id="mobile_no" name="mobile_no" maxlenght="15" {% if request.user.mobile_no %} value="{{request.user.mobile_no}}" {% else %} placeholder="Enter mobile no" {% endif %}
+															required class="form-control"><p class="error"></p>
+													</div>
+												</div>
+
+												<div class="col-lg-6">
+													<div class="form-group mb-3">
+														<label>Profile Image</label> 
+														<input type="file" name="profile_pic" class="form-control">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group mb-3">
+														<label>Topics</label> 
+														   <select class="form-control topics" multiple name="topics" ids='{{ids}}'>
+															 {% for topic in topics %}
+																<option value="{{topic.id}}">{{topic.name}}</option>
+															 {% endfor %}
+														    </select>
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group mb-3">
+														<label>Gender</label>
+														<div class="form-group mb-3">
+															<input id="male" type="radio" name='gender' {% if request.user.gender == 1%} checked="checked" {% endif %} value="1">
+															<label for="male">Male</label>
+															<input id="female" type="radio" name='gender' {% if request.user.gender == 2%} checked="checked" {% endif %} value="2">
+															<label for="female">Female</label>
+														</div>
+													</div>
+												</div>
+												
+												<div class="col-lg-12 text-center">
+													<button class="tg-btn" type="submit" value="button">Update</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="change-password" role="tabpanel"
+						aria-labelledby="change-password-tab">
+						<div class="bg-light">
+							<div class="dashboard_main">
+								<div class="row">
+									<div id="recent-transactions" class="col-12">
+										<h4 class="card-title mt-0 pb-0 m-0 pl-4 pt-3">Change Password</h4>
+										<hr>
+										<form method="post" class="change_password" action="{%url 'accounts:change_password'%}">
+										{% csrf_token %} 
+											<div class="row profile_detail px-4 pb-4 pt-2">
+												
+												<div class="col-lg-12">
+													<div class="form-group mb-3">
+														<label>Old Password</label> <input type="password" name="currentpassword"
+															class="form-control"><p class="error"></p>
+													</div>
+												</div>
+												<div class="col-lg-12">
+													<div class="form-group mb-3">
+														<label>New Password</label> <input type="password" name="newpassword"
+															class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><p class="error"></p>
+													</div>
+												</div>
+												<div class="col-lg-12">
+													<div class="form-group mb-3">
+														<label>Confirm Password</label> <input type="password" name="confirmpassword"
+															class="form-control"><p class="error"></p>
+													</div>
+												</div>
+												<div class="col-lg-12 text-center">
+													<button class="tg-btn" type="submit" value="button">Submit</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+<script>
+function IsEmail(email) {
+  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if(!regex.test(email)) {
+    return false;
+  }else{
+    return true;
+  }
+}
+</script>
+
+{% endblock %}
+

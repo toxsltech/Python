@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"
+style="background: url(../../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+background-position: center center;">
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="breadcrumb-wrapper">
+				<ol class="breadcrumb">
+					<li><a href="{% url 'frontend:index' %}">Home /</a></li>
+					<li class="current">{{ads.title}}</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="section-padding product-detail">
+	<div class="container">
+		<div class="product-info row">
+			<div class="col-lg-5 col-md-12 col-xs-12">
+				<div class="details-box ads-details-wrapper">
+					<div id="owl-demo" class="owl-carousel owl-theme">
+						<div class="item">
+							<div class="product-img">
+								{% if ads.image %}
+								<img class="img-fluid" src="{{ads.image.url}}" alt="img">
+								{% else %}
+								<img class="image" src="/static/assets/img/default_product_image.jpg"></img>
+								{% endif %}
+							</div>
+							<span class="price">${{ads.price}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-7 col-md-12 col-xs-12">
+				<div class="details-box">
+					<div class="ads-details-info">
+						<h2>{{ads.title}}</h2>
+						<p class="mb-2">{{ads.description}}</p>
+						
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

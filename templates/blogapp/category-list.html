@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"
+	style="background: url(/../static/assets/img/banner3.jpg) no-repeat;background-size: cover;
+	background-position: center center;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="breadcrumb-wrapper">
+					<h2 class="product-title">Blog</h2>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'frontend:index' %}">Home /</a></li>
+						<li class="current">Blog</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section id="blog" class="main-container section-padding">
+	<div class="container">
+		<div class="row">
+	    {% if post %}
+		{%  for post in post %}
+			<div class="col-lg-12 col-xl-6 col-md-6">
+				<div class="blog-block">
+					<div class="row">
+						<div class="col-xl-5 col-lg-3">
+							<div class="blog-img">
+								<a title="blog">
+								{% if post.image %}
+							    	<img src="/media/{{post.image}}" alt="blog">
+							    {% else %}
+							    	<img class="image" src="/static/assets/img/default_product_image.jpg"></img>
+							    {% endif %}
+						       </a>
+								<div class="meta-dtl">
+									<a href="" title="date">
+										<div class="date">{{post.created_on|date:"d"}}</div>
+										<div class="month">{{post.created_on|date:"M"}}</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-7 col-lg-9">
+							<div class="blog-dtl">
+								<div class="blog-sub-heading">
+
+									<a>{{post.name}} </a>
+								</div>
+								<h6 class="blog-heading">
+									<a title="blog">{{post.title}}</a>
+								</h6>
+								<p class="text-justify">{{post.description|safe|truncatechars:250}}</p><hr>
+								
+								<div class="row">
+									<div class="col-lg-6 col-sm-6 col-6">
+										<a href="{% url 'blogapp:post_detail' post.id %}" class="btn btn-link">Read More<i
+											class="lni-arrow-right"></i></a>
+									</div>
+									<div class="col-lg-6 col-sm-6 col-6 text-right">
+										<div class="blog-icon">
+											<a href="#" title=""><i
+												class="lni-comments-alt"></i>{{post.comments.count}}</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			No Post Available Yet.
+			{% endif %}
+
+
+ 		</div>
+	</div>
+</section>
+
+{% endblock %}
